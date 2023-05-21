@@ -1,29 +1,26 @@
-# MobileAutomationFramewokTemplate
-The MobileAutomationFrameworkTemplate is a Maven-based Java project that provides a foundationfor mobile test automation using Selenium, Appium, TestNG, Extent Report, and javax.mail libraries. It offers a structured framework with utilities for efficient mobile automation and detailed test reporting.
-
-
-# MobileAutomationFrameworkTemplate
+# 📱 MobileAutomationFrameworkTemplate
 
 The MobileAutomationFrameworkTemplate is a modern and comprehensive Maven-based Java project for mobile test automation. It combines powerful libraries and frameworks to provide a robust and efficient automation solution.
 
-## Features
+![Framework Logo](https://example.com/framework-logo.png)
 
-- **Selenium**: Integration with Selenium WebDriver library for web-based automation in mobile testing.
-- **Appium**: Seamless integration with the Appium library for cross-platform mobile automation (Android and iOS).
-- **TestNG**: Utilizes the TestNG testing framework for structured test organization, reporting, and parallel execution capabilities.
-- **Extent Report**: Generates detailed and visually appealing HTML reports using the Extent Report library, providing insights into test execution results.
-- **javax.mail**: Incorporates the javax.mail library for sending automated email notifications with test reports or relevant information.
-- **Maven**: Built on the Maven project structure, making it easy to manage dependencies and build automation projects.
+[![GitHub issues](https://img.shields.io/github/issues/0kakarot0/MobileAutomationFramewokTemplate)](https://github.com/0kakarot0/MobileAutomationFramewokTemplate/issues)
+[![GitHub forks](https://img.shields.io/github/forks/0kakarot0/MobileAutomationFramewokTemplate)](https://github.com/0kakarot0/MobileAutomationFramewokTemplate/network)
+[![GitHub stars](https://img.shields.io/github/stars/0kakarot0/MobileAutomationFramewokTemplate)](https://github.com/0kakarot0/MobileAutomationFramewokTemplate/stargazers)
+[![GitHub license](https://img.shields.io/github/license/0kakarot0/MobileAutomationFramewokTemplate)](https://github.com/0kakarot0/MobileAutomationFramewokTemplate/blob/master/LICENSE)
 
-## Key Components
+## 🌟 Features
 
-The MobileAutomationFrameworkTemplate includes the following components:
+- 💻 Selenium - Integration with Selenium WebDriver library for web-based automation in mobile testing.
+- 📱 Appium - Seamless integration with the Appium library for cross-platform mobile automation (Android and iOS).
+- 🧪 TestNG - Utilizes the TestNG testing framework for structured test organization, reporting, and parallel execution capabilities.
+- 📈 Extent Report - Generates detailed and visually appealing HTML reports using the Extent Report library, providing insights into test execution results.
+- 📧 javax.mail - Incorporates the javax.mail library for sending automated email notifications with test reports or relevant information.
+- 🔧 Maven - Built on the Maven project structure, making it easy to manage dependencies and build automation projects.
 
-- **Page Object Model**: Implements the Page Object Model design pattern for better test structure and maintenance.
-- **Screenshot Capture**: Provides utilities to capture and save screenshots for failed tests or specific scenarios.
-- **Email Notifications**: Includes functionality to send automated email notifications using the javax.mail library.
+![Framework Architecture](https://example.com/framework-architecture.png)
 
-## Getting Started
+## 🚀 Getting Started
 
 To get started with the MobileAutomationFrameworkTemplate:
 
@@ -33,11 +30,23 @@ To get started with the MobileAutomationFrameworkTemplate:
 4. Run the tests using TestNG, and the Extent Report will be generated automatically with detailed test execution results.
 5. Configure the email notification settings in the test listeners or other relevant classes to receive automated reports via email.
 
-For detailed information on how to use and extend the framework, please refer to the project's [documentation](link-to-documentation).
-
-## Conclusion
+## 🎯 Conclusion
 
 The MobileAutomationFrameworkTemplate offers a modern and feature-rich foundation for mobile test automation. Its integration with Selenium, Appium, TestNG, Extent Report, and javax.mail libraries, combined with its structured approach and utilities, makes it an ideal choice for building scalable and efficient mobile automation projects.
 
-For more details, refer to the [project repository](link-to-repository).
+For more details, refer to the [project repository](https://github.com/0kakarot0/MobileAutomationFramewokTemplate).
+
+![Framework Demo](https://example.com/framework-demo.gif)
+
+## 📝 License
+
+This project is licensed under the terms of the MIT license. See the [LICENSE](https://github.com/0kakarot0/MobileAutomationFramewokTemplate/blob/master/LICENSE) file for details.
+
+## 👤 Author
+
+**Ahtisham Ilyas**
+
+- GitHub: [@0kakarot0](https://github.com/0kakarot0)
+<!-- - Twitter: [@yourhandle](https://twitter.com/yourhandle) -->
+- LinkedIn: [Ahtisham Ilyas](https://www.linkedin.com/in/ahtisham-ilyas-62193768/)
 
