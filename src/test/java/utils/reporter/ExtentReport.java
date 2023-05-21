@@ -1,8 +1,12 @@
-package utils;
+package utils.reporter;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+
+import java.io.File;
+import java.io.IOException;
 
 public class ExtentReport {
 
@@ -29,7 +33,21 @@ public class ExtentReport {
     }
 
     public void testFail(String failInfo){
-        extentTest.fail(failInfo);
+        try {
+            String screenshotPath = "src/main/resources/screenShots/screenShot.png";
+            extentTest.fail(failInfo, MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+            // Delete the screenshot file
+            File screenshotFile = new File(screenshotPath);
+            if (screenshotFile.delete()) {
+                System.out.println("Screenshot file deleted successfully.");
+            } else {
+                System.out.println("Failed to delete the screenshot file.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle the exception (e.g., logging, reporting, or throwing a custom exception)
+            // You can modify this part based on your specific error handling needs
+        }
     }
 
     public void testSkip(String reasonToSkip){
@@ -38,6 +56,17 @@ public class ExtentReport {
 
     public void testInfo(String testInfo){
         extentTest.info(testInfo);
+    }
+
+
+    public void logStepResult(String stepResult){
+        if (stepResult.equalsIgnoreCase("pass")){
+            testPass(stepResult);
+        } else if (stepResult.equalsIgnoreCase("fail")) {
+            testFail(stepResult);
+        }else {
+            testInfo(stepResult);
+        }
     }
 
     public void flushReport(){

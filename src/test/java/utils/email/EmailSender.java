@@ -1,6 +1,9 @@
-package utils;
+package utils.email;
+
+import utils.fileReader.PropertiesFileReader;
 
 import java.io.File;
+import java.io.FileReader;
 import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -8,35 +11,29 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 public class EmailSender {
+    private final String recipient = "abc@gmail.com ";
 
-    private String host;
-    private int port;
-    private String username;
-    private String password;
-
-    public EmailSender(String host, int port, String username, String password) {
-        this.host = host;
-        this.port = port;
-        this.username = username;
-        this.password = password;
+    private PropertiesFileReader fileReader;
+    public EmailSender() {
+        fileReader = new PropertiesFileReader();
     }
 
-    public void sendEmail(String recipient, String subject, String body, File attachment) {
+    public void sendEmail(String subject, String body, File attachment) {
         Properties properties = new Properties();
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", port);
+        properties.put("mail.smtp.host", fileReader.getHost());
+        properties.put("mail.smtp.port", fileReader.getPort());
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
 
         Session session = Session.getInstance(properties, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
+                return new PasswordAuthentication(fileReader.getEmail(), fileReader.getEmailPassword());
             }
         });
 
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
+            message.setFrom(new InternetAddress(fileReader.getEmail()));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
             message.setSubject(subject);
 

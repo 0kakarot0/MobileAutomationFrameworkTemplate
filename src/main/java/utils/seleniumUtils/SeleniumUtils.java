@@ -1,13 +1,17 @@
-package utils;
+package utils.seleniumUtils;
 
+import com.google.common.io.Files;
 import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageBase.driver.PageDriver;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.time.Duration;
 
 public class SeleniumUtils extends PageDriver {
@@ -20,23 +24,31 @@ public class SeleniumUtils extends PageDriver {
 
 
     public void click(By locator) {
-        try {
-            returnWebElement(locator).click();
-        } catch (NullPointerException e) {
-            // Handle the exception (e.g., logging, reporting, or throwing a custom exception)
-            // You can modify this part based on your specific error handling needs
-            e.printStackTrace();
-            System.out.println("Element not found. Cannot perform click.");
+        WebElement element = returnWebElement(locator);
+        if (element != null) {
+            try {
+                element.click();
+            } catch (NullPointerException e) {
+                // Handle the exception (e.g., logging, reporting, or throwing a custom exception)
+                // You can modify this part based on your specific error handling needs
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Element not found. Cannot perform sendKeys.");
         }
     }
 
     public void sendKeys(By locator, String text) {
-        try {
-            returnWebElement(locator).sendKeys(text);
-        } catch (NullPointerException e) {
-            // Handle the exception (e.g., logging, reporting, or throwing a custom exception)
-            // You can modify this part based on your specific error handling needs
-            e.printStackTrace();
+        WebElement element = returnWebElement(locator );
+        if (element != null) {
+            try {
+                element.sendKeys(text);
+            } catch (NoSuchElementException e) {
+                // Handle the exception (e.g., logging, reporting, or throwing a custom exception)
+                // You can modify this part based on your specific error handling needs
+                e.printStackTrace();
+            }
+        } else {
             System.out.println("Element not found. Cannot perform sendKeys.");
         }
     }
@@ -49,17 +61,45 @@ public class SeleniumUtils extends PageDriver {
 
     private WebElement returnWebElement(By locator) {
         try {
-            waitForVisibility();
+            waitForVisibility(locator);
             return getDriver().findElement(locator);
         } catch (NoSuchElementException e) {
             // Handle the exception (e.g., logging, reporting, or throwing a custom exception)
             // You can modify this part based on your specific error handling needs
+            getFailedElementScreenShot();
             e.printStackTrace();
             return null; // or throw a custom exception as per your requirements
         }
     }
 
 
+    public void getFailedElementScreenShot() {
+
+        String fileName = "screenShot.png";
+        String pathToSaveFile = "src/main/resources/screenShots/" + fileName;
+        try {
+            // Capture screenshot of the entire screen
+            var getScreenShot = (TakesScreenshot) getDriver();
+            File screenShot = getScreenShot.getScreenshotAs(OutputType.FILE);
+
+            // Load the screenshot as an image
+            BufferedImage image = ImageIO.read(screenShot);
+
+            // Apply red overlay to the image
+            Graphics2D graphics = image.createGraphics();
+            graphics.setColor(new Color(255, 0, 0, 128)); // Red color with transparency
+            graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
+            graphics.dispose();
+
+            // Save the modified image
+            Files.move(screenShot, new File(pathToSaveFile));
+        } catch (Exception exception) {
+            exception.getCause();
+            exception.getStackTrace();
+            exception.getMessage();
+        }
+
+    }
 
     public void waitForVisibility(By locator) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));

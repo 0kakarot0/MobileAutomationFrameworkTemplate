@@ -1,4 +1,4 @@
 package utils.fileWriter;
 
-public class FileWriter {
+public class PropertiesFileWriter {
 }

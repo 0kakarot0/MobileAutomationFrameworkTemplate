@@ -1,4 +1,4 @@
-package tesBase;
+package testBase;
 
 public class DeviceCapabilitiesManager {
 }
