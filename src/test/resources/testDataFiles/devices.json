@@ -1,0 +1,9 @@
+[
+  {
+    "identity": "emulatorOne",
+    "automationName" : "UIAutomator2",
+    "platformName" : "Android",
+    "platformVersion" : "9",
+    "deviceName" : "Galaxy S22"
+  }
+]
