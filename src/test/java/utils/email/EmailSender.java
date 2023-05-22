@@ -1,5 +1,6 @@
 package utils.email;
 
+import io.appium.java_client.android.AndroidDriver;
 import utils.fileReader.PropertiesFileReader;
 
 import java.io.File;
@@ -14,7 +15,7 @@ public class EmailSender {
     private final String recipient = "abc@gmail.com ";
 
     private PropertiesFileReader fileReader;
-    public EmailSender() {
+    public EmailSender(AndroidDriver driver) {
         fileReader = new PropertiesFileReader();
     }
 

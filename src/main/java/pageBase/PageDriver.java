@@ -5,14 +5,18 @@ import org.openqa.selenium.support.PageFactory;
 
 public class PageDriver {
 
-    private AndroidDriver driver;
+    private static AndroidDriver driver;
 
     public PageDriver(AndroidDriver driver) {
-        this.driver = driver;
+        PageDriver.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-    public AndroidDriver getDriver(){
+    public static void setDriver(AndroidDriver driver) {
+        PageDriver.driver = driver;
+    }
+
+    public static AndroidDriver getDriver(){
         return driver;
     }
 }

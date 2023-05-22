@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Test Suite" parallel="methods" thread-count="2">
+    <listeners>
+        <listener class-name="utils.listener.TestListener"/>
+    </listeners>
+
+    <test name="Arabic Test">
+        <parameter name="deviceName" value="LDPlayerTwo" />
+        <parameter name="driver" value="driverInstance" />
+        <classes>
+            <class name="tests.ExampleTest"/>
+        </classes>
+    </test>
+</suite>

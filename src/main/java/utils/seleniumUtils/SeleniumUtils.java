@@ -9,7 +9,6 @@ import pageBase.driver.PageDriver;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.time.Duration;
@@ -24,22 +23,20 @@ public class SeleniumUtils extends PageDriver {
 
 
     public void click(By locator) {
-        WebElement element = returnWebElement(locator);
-        if (element != null) {
-            try {
-                element.click();
-            } catch (NullPointerException e) {
-                // Handle the exception (e.g., logging, reporting, or throwing a custom exception)
-                // You can modify this part based on your specific error handling needs
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Element not found. Cannot perform sendKeys.");
+        try {
+            WebElement element = returnWebElement(locator);
+            element.click();
+        } catch (Exception e) {
+            // Handle the exception (e.g., logging, reporting, or throwing a custom exception)
+            // You can modify this part based on your specific error handling needs
+            System.out.println("Element not found. Cannot perform sendKeys." + e);
+            throw e;
         }
+
     }
 
     public void sendKeys(By locator, String text) {
-        WebElement element = returnWebElement(locator );
+        WebElement element = returnWebElement(locator);
         if (element != null) {
             try {
                 element.sendKeys(text);
@@ -102,7 +99,11 @@ public class SeleniumUtils extends PageDriver {
     }
 
     public void waitForVisibility(By locator) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        } catch (TimeoutException e) {
+            getFailedElementScreenShot();
+        }
     }
 
 }

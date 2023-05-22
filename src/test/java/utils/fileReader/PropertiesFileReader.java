@@ -9,6 +9,9 @@ public class PropertiesFileReader {
     private Properties configurationProperties;
     private Properties emailProperties;
     private String filePath;
+
+
+
     public void readConfigurationProperties() {
         filePath = "src/test/resources/testDataFiles/configuration.properties";
         configurationProperties = readProperties(filePath);

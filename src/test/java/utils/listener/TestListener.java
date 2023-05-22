@@ -1,9 +1,17 @@
 package utils.listener;
 
+import io.appium.java_client.android.AndroidDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+import testBase.DriverManager;
 import utils.reporter.ExtentReport;
+
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.util.Map;
+
+import static testBase.BaseClass.driver;
 
 public class TestListener implements ITestListener {
 
@@ -11,35 +19,32 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-        extentReport = new ExtentReport();
-        extentReport.createReport();
+        System.out.println("Test Starting");
     }
 
     @Override
     public void onTestStart(ITestResult result) {
-        String testName = result.getName();
-        String testDescription = result.getMethod().getDescription();
-        extentReport.createTest(testName, testDescription);
+
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        extentReport.testPass("Test passed");
+
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        extentReport.testFail("Test failed");
+
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        extentReport.testSkip("Test skipped");
+
     }
 
     @Override
     public void onFinish(ITestContext context) {
-        extentReport.flushReport();
+
     }
 }
 
