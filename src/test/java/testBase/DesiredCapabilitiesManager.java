@@ -7,8 +7,18 @@ import utils.fileReader.DeviceDataReader;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+
+// This class sets up the DesiredCapabilities for the AndroidDriver based on the device name.
 public class DesiredCapabilitiesManager {
+    private static final Logger logger = Logger.getLogger(DesiredCapabilitiesManager.class);
+
+
+    // This method returns the DesiredCapabilities for the specified device name.
     public static DesiredCapabilities getDesiredCapabilities(String deviceName) throws FileNotFoundException {
+        logger.info("Setting up DesiredCapabilities for device: " + deviceName);
+
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
 
         // Fetch the device data based on the deviceName parameter from DeviceDataReader
@@ -19,6 +29,11 @@ public class DesiredCapabilitiesManager {
                 device = deviceData.getDevice();
                 break;
             }
+        }
+
+        if (device == null) {
+            logger.error("Device not found: " + deviceName);
+            throw new FileNotFoundException("Device not found: " + deviceName);
         }
 
         // Set the desired capabilities based on the device data
@@ -33,6 +48,7 @@ public class DesiredCapabilitiesManager {
         desiredCapabilities.setCapability("appPackage", "com.veronicaapps.veronica.simplecalculator");
         desiredCapabilities.setCapability("appActivity", "com.veronicaapps.veronica.simplecalculator.MainActivity");
 
+        logger.info("DesiredCapabilities set up complete.");
         return desiredCapabilities;
     }
 

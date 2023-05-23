@@ -8,7 +8,7 @@ public class ExampleTest extends PageObjects {
     @Test
     public void firstTest() {
         extentReport.createTest("firsttest", "Abc");
-        String stepResult = editText.click();
+        String stepResult = login.click();
         extentReport.logStepResult(stepResult);
     }
 }

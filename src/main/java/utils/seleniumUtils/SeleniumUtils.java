@@ -1,11 +1,16 @@
 package utils.seleniumUtils;
 
 import com.google.common.io.Files;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageBase.driver.PageDriver;
+import pageBase.PageDriver;
+
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -15,44 +20,71 @@ import java.time.Duration;
 
 public class SeleniumUtils extends PageDriver {
     private final WebDriverWait wait;
+    public String stepResult = "";
+    private static final Logger logger = Logger.getLogger(SeleniumUtils.class);
 
     public SeleniumUtils(AndroidDriver driver) {
         super(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-
     public void click(By locator) {
         try {
             WebElement element = returnWebElement(locator);
             element.click();
         } catch (Exception e) {
-            // Handle the exception (e.g., logging, reporting, or throwing a custom exception)
-            // You can modify this part based on your specific error handling needs
-            System.out.println("Element not found. Cannot perform sendKeys." + e);
+            logger.error("Element not found. Cannot perform click.", e);
             throw e;
         }
-
     }
 
     public void sendKeys(By locator, String text) {
-        WebElement element = returnWebElement(locator);
-        if (element != null) {
-            try {
-                element.sendKeys(text);
-            } catch (NoSuchElementException e) {
-                // Handle the exception (e.g., logging, reporting, or throwing a custom exception)
-                // You can modify this part based on your specific error handling needs
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Element not found. Cannot perform sendKeys.");
+        try {
+            WebElement element = returnWebElement(locator);
+            element.sendKeys(text);
+        } catch (NoSuchElementException e) {
+            logger.error("Element not found. Cannot perform sendKeys.", e);
+            throw e;
         }
     }
 
-
     public boolean isDisplayed(By locator) {
         return returnWebElement(locator).isDisplayed();
+    }
+
+
+    public String returnAttribute(By locator, String attribute) {
+        try {
+            WebElement element = returnWebElement(locator);
+            return element.getAttribute(attribute);
+        } catch (NoSuchElementException e) {
+            logger.error("Element not found. Cannot return attribute.", e);
+            throw e;
+        }
+    }
+
+    public String returnText(By locator) {
+        try {
+            WebElement element = returnWebElement(locator);
+            return element.getText();
+        } catch (NoSuchElementException e) {
+            logger.error("Element not found. Cannot return text.", e);
+            throw e;
+        }
+    }
+
+    public String returnContentDesc(By locator) {
+        return returnAttribute(locator, "contentDescription");
+    }
+
+    public List<WebElement> returnList(By locator) {
+        try {
+            waitForVisibility(locator);
+            return getDriver().findElements(locator);
+        } catch (NoSuchElementException e) {
+            logger.error("Elements not found.", e);
+            throw e;
+        }
     }
 
 
@@ -61,41 +93,38 @@ public class SeleniumUtils extends PageDriver {
             waitForVisibility(locator);
             return getDriver().findElement(locator);
         } catch (NoSuchElementException e) {
-            // Handle the exception (e.g., logging, reporting, or throwing a custom exception)
-            // You can modify this part based on your specific error handling needs
             getFailedElementScreenShot();
-            e.printStackTrace();
-            return null; // or throw a custom exception as per your requirements
+            logger.error("Element not found.", e);
+            throw e;
         }
     }
 
-
     public void getFailedElementScreenShot() {
-
         String fileName = "screenShot.png";
         String pathToSaveFile = "src/main/resources/screenShots/" + fileName;
         try {
-            // Capture screenshot of the entire screen
             var getScreenShot = (TakesScreenshot) getDriver();
             File screenShot = getScreenShot.getScreenshotAs(OutputType.FILE);
-
-            // Load the screenshot as an image
             BufferedImage image = ImageIO.read(screenShot);
-
-            // Apply red overlay to the image
             Graphics2D graphics = image.createGraphics();
-            graphics.setColor(new Color(255, 0, 0, 128)); // Red color with transparency
+            graphics.setColor(new Color(255, 0, 0, 128));
             graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
             graphics.dispose();
-
-            // Save the modified image
             Files.move(screenShot, new File(pathToSaveFile));
         } catch (Exception exception) {
-            exception.getCause();
-            exception.getStackTrace();
-            exception.getMessage();
+            logger.error("Failed to capture screenshot.", exception);
         }
+    }
 
+    public void waitForClickable(By locator) {
+        try {
+            waitForVisibility(locator);
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
+        } catch (TimeoutException e) {
+            getFailedElementScreenShot();
+            logger.error("Element not clickable after waiting.", e);
+            throw e;
+        }
     }
 
     public void waitForVisibility(By locator) {
@@ -103,7 +132,8 @@ public class SeleniumUtils extends PageDriver {
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         } catch (TimeoutException e) {
             getFailedElementScreenShot();
+            logger.error("Element not visible after waiting.", e);
+            throw e;
         }
     }
-
 }

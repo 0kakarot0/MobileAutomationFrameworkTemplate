@@ -10,8 +10,13 @@ import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
+import org.apache.log4j.Logger;
 
+
+// This class is responsible for sending emails.
 public class EmailSender {
+    private static final Logger logger = Logger.getLogger(EmailSender.class);
+
     private final String recipient = "abc@gmail.com ";
 
     private PropertiesFileReader fileReader;
@@ -20,6 +25,7 @@ public class EmailSender {
     }
 
     public void sendEmail(String subject, String body, File attachment) {
+        logger.info("Preparing to send email with subject: " + subject);
         Properties properties = new Properties();
         properties.put("mail.smtp.host", fileReader.getHost());
         properties.put("mail.smtp.port", fileReader.getPort());
@@ -60,6 +66,7 @@ public class EmailSender {
             // Send the message
             Transport.send(message);
             System.out.println("Email sent successfully.");
+            logger.info("Email sent successfully.");
         } catch (MessagingException e) {
             e.printStackTrace();
         }

@@ -1,8 +1,10 @@
 package utils.fileReader;
 
+// This class represents the data for a device.
 public class DeviceData {
     private Device device;
 
+    // Return the device properties
     public Device getDevice() {
         return device;
     }
@@ -11,6 +13,7 @@ public class DeviceData {
         this.device = device;
     }
 
+    // Add getters and setters for the device properties
     public static class Device {
         private String firstName;
         private String automationName;
