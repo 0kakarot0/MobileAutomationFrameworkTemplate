@@ -7,9 +7,8 @@ import org.openqa.selenium.By;
 import utils.seleniumUtils.SeleniumUtils;
 import org.apache.log4j.Logger;
 
-/**
- * This class represents the Login page.
- */
+
+// This class represents the Login page.
 public class Login extends SeleniumUtils {
     private static final Logger logger = LogManager.getLogger(Login.class);
 
