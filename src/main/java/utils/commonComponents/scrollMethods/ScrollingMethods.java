@@ -14,9 +14,9 @@ import java.util.Collections;
 public class ScrollingMethods {
     private static final Logger logger = LogManager.getLogger(ScrollingMethods.class);
 
-    private final AndroidDriver<WebElement> driver;
+    private final AndroidDriver driver;
 
-    public ScrollingMethods(AndroidDriver<WebElement> driver) {
+    public ScrollingMethods(AndroidDriver driver) {
         this.driver = driver;
     }
 
