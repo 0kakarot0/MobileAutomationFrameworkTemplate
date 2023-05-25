@@ -98,7 +98,7 @@ public class ScrollingMethods {
         RIGHT
     }
 
-    private static class Pause extends org.openqa.selenium.interactions.Pause {
+    private static class MyPause  extends org.openqa.selenium.interactions.Pause {
         protected Pause(PointerInput source, Duration duration) {
             super(source, duration);
         }

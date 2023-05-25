@@ -87,7 +87,7 @@ public class SeleniumUtils {
     }
 
 
-    private WebElement returnWebElement(By locator) {
+    private WebElement returnWebElement(By locator) throws IOException {
         try {
             waitForVisibility(locator);
             return driver.findElement(locator);
@@ -116,7 +116,7 @@ public class SeleniumUtils {
         }
     }
 
-    public void waitForClickable(By locator) {
+    public void waitForClickable(By locator) throws IOException {
         try {
             waitForVisibility(locator);
             wait.until(ExpectedConditions.elementToBeClickable(locator));
@@ -127,7 +127,7 @@ public class SeleniumUtils {
         }
     }
 
-    public void waitForVisibility(By locator) {
+    public void waitForVisibility(By locator) throws IOException {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         } catch (TimeoutException e) {
