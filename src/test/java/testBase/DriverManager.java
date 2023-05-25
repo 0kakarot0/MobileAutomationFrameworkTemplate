@@ -1,31 +1,28 @@
 package testBase;
-import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import pageBase.PageDriver;
 
+import io.appium.java_client.android.AndroidDriver;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import utils.server.AppiumServer;
 
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
-import org.apache.log4j.Logger;
 
 
 // This class manages the AndroidDriver.
-public class DriverManager extends PageDriver {
+public class DriverManager {
     private static final Logger logger = Logger.getLogger(DriverManager.class);
 
-    public DriverManager(AndroidDriver driver) {
-        super(driver);
-    }
+    private static AndroidDriver driver;
 
     // This method returns the AndroidDriver for the specified device name.
     public static AndroidDriver getDriver(String deviceName) throws MalformedURLException, FileNotFoundException {
         logger.info("Getting driver for device: " + deviceName);
 
         // Check if the driver is already initialized
-        if (getDriver() == null) {
+        if (driver == null) {
             // Get the desired capabilities for the device
             DesiredCapabilities capabilities = DesiredCapabilitiesManager.getDesiredCapabilities(deviceName);
 
@@ -44,12 +41,12 @@ public class DriverManager extends PageDriver {
             URL fullUrl = new URL(serverUrl);
 
             // Create and assign a new AndroidDriver instance
-            AndroidDriver driver = new AndroidDriver(fullUrl, capabilities);
-            setDriver(driver);
+            driver = new AndroidDriver(fullUrl, capabilities);
+
         }
 
         logger.info("Driver obtained.");
-        return getDriver();
+        return driver;
     }
 }
 
