@@ -1,36 +1,35 @@
 package utils.seleniumUtils;
 
 import com.google.common.io.Files;
-
-import java.util.List;
-
-import org.apache.log4j.Logger;
 import io.appium.java_client.android.AndroidDriver;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageBase.PageDriver;
-
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
 
-public class SeleniumUtils extends PageDriver {
+public class SeleniumUtils {
     private final WebDriverWait wait;
     public String stepResult = "";
     private static final Logger logger = Logger.getLogger(SeleniumUtils.class);
+    private AndroidDriver driver;
 
     public SeleniumUtils(AndroidDriver driver) {
-        super(driver);
+        this.driver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public void click(By locator) {
         try {
             WebElement element = returnWebElement(locator);
+            waitForClickable(locator);
             element.click();
         } catch (Exception e) {
             logger.error("Element not found. Cannot perform click.", e);
@@ -80,7 +79,7 @@ public class SeleniumUtils extends PageDriver {
     public List<WebElement> returnList(By locator) {
         try {
             waitForVisibility(locator);
-            return getDriver().findElements(locator);
+            return driver.findElements(locator);
         } catch (NoSuchElementException e) {
             logger.error("Elements not found.", e);
             throw e;
@@ -91,7 +90,7 @@ public class SeleniumUtils extends PageDriver {
     private WebElement returnWebElement(By locator) {
         try {
             waitForVisibility(locator);
-            return getDriver().findElement(locator);
+            return driver.findElement(locator);
         } catch (NoSuchElementException e) {
             getFailedElementScreenShot();
             logger.error("Element not found.", e);
@@ -99,11 +98,11 @@ public class SeleniumUtils extends PageDriver {
         }
     }
 
-    public void getFailedElementScreenShot() {
+    public void getFailedElementScreenShot() throws IOException {
         String fileName = "screenShot.png";
         String pathToSaveFile = "src/main/resources/screenShots/" + fileName;
         try {
-            var getScreenShot = (TakesScreenshot) getDriver();
+            var getScreenShot = (TakesScreenshot) driver;
             File screenShot = getScreenShot.getScreenshotAs(OutputType.FILE);
             BufferedImage image = ImageIO.read(screenShot);
             Graphics2D graphics = image.createGraphics();
@@ -113,6 +112,7 @@ public class SeleniumUtils extends PageDriver {
             Files.move(screenShot, new File(pathToSaveFile));
         } catch (Exception exception) {
             logger.error("Failed to capture screenshot.", exception);
+            throw exception;
         }
     }
 
