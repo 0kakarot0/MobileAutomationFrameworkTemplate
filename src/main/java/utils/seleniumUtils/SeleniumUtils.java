@@ -26,7 +26,7 @@ public class SeleniumUtils {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    public void click(By locator) {
+    public void click(By locator) throws IOException {
         try {
             WebElement element = returnWebElement(locator);
             waitForClickable(locator);
@@ -37,17 +37,17 @@ public class SeleniumUtils {
         }
     }
 
-    public void sendKeys(By locator, String text) {
+    public void sendKeys(By locator, String text) throws IOException {
         try {
             WebElement element = returnWebElement(locator);
             element.sendKeys(text);
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | IOException e) {
             logger.error("Element not found. Cannot perform sendKeys.", e);
             throw e;
         }
     }
 
-    public boolean isDisplayed(By locator) {
+    public boolean isDisplayed(By locator) throws IOException {
         return returnWebElement(locator).isDisplayed();
     }
 
@@ -62,11 +62,11 @@ public class SeleniumUtils {
         }
     }
 
-    public String returnText(By locator) {
+    public String returnText(By locator) throws IOException {
         try {
             WebElement element = returnWebElement(locator);
             return element.getText();
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | IOException e) {
             logger.error("Element not found. Cannot return text.", e);
             throw e;
         }
@@ -76,11 +76,11 @@ public class SeleniumUtils {
         return returnAttribute(locator, "contentDescription");
     }
 
-    public List<WebElement> returnList(By locator) {
+    public List<WebElement> returnList(By locator) throws IOException {
         try {
             waitForVisibility(locator);
             return driver.findElements(locator);
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | IOException e) {
             logger.error("Elements not found.", e);
             throw e;
         }

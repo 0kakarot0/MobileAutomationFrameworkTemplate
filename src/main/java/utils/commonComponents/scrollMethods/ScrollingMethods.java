@@ -99,14 +99,5 @@ public class ScrollingMethods {
         RIGHT
     }
 
-    private static class MyPause extends org.openqa.selenium.interactions.Pause {
-        protected MyPause(PointerInput source, Duration duration) {
-            super(source, duration);
-        }
 
-        @Override
-        public String getDescription() {
-            return "Pause";
-        }
-    }
 }
