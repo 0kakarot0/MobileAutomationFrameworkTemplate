@@ -52,11 +52,11 @@ public class SeleniumUtils {
     }
 
 
-    public String returnAttribute(By locator, String attribute) {
+    public String returnAttribute(By locator, String attribute) throws IOException {
         try {
             WebElement element = returnWebElement(locator);
             return element.getAttribute(attribute);
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | IOException e) {
             logger.error("Element not found. Cannot return attribute.", e);
             throw e;
         }
@@ -72,7 +72,7 @@ public class SeleniumUtils {
         }
     }
 
-    public String returnContentDesc(By locator) {
+    public String returnContentDesc(By locator) throws IOException {
         return returnAttribute(locator, "contentDescription");
     }
 
