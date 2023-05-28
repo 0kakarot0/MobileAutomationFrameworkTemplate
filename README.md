@@ -69,9 +69,9 @@ To get started with the MobileAutomationFrameworkTemplate:
 2. **Open the Project:** Open your preferred Java IDE (e.g., IntelliJ IDEA, Eclipse) and import the project by selecting the root directory where you cloned the repository.
 
 3. **Set Up Dependencies:** The project is built using Maven, so it will automatically download the necessary dependencies. However, ensure that you have Maven installed on your machine. If not, you can download it from the official Maven website and follow the installation instructions.
-4. Update the necessary configuration files, such as `configuration.properties` and `emailConfiguration.properties`, with relevant settings.
-5. Customize the framework as per your project requirements by adding test cases, modifying page objects, and extending utility classes.
-6. Run the tests using TestNG, and the Extent Report will be generated automatically with detailed test execution results.
+4. **Update the necessary configuration files:**, such as `configuration.properties` and `emailConfiguration.properties`, with relevant settings.
+5. **Customize the framework:** as per your project requirements by adding test cases, modifying page objects, and extending utility classes.
+6. **Run the tests using TestNG:**, and the Extent Report will be generated automatically with detailed test execution results.
 7.  **Customize the Framework:** Customize the framework as per your project requirements. You can add your own test cases, modify the existing page objects, extend utility classes, or add additional utility classes specific to your needs.
 
 The project structure provides a logical organization for your automation project:
