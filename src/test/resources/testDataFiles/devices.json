@@ -8,7 +8,7 @@
       "deviceName": "LDPlayerTwo",
       "udid": "emulator-5554",
       "autoGrantPermissions": "true",
-      "app": "C:\\Users\\UserName\\Downloads\\APK\\Your.apk"
+      "app": "apps\\Your.apk"
     }
   }
 ]

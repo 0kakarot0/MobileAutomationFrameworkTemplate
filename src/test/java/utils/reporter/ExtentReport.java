@@ -6,18 +6,20 @@ import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import io.appium.java_client.android.AndroidDriver;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Base64;import org.apache.log4j.Logger;
+import java.util.Base64;
+
 
 public class ExtentReport {
 
-    private static final Logger logger = Logger.getLogger(ExtentReport.class);
+    private static final Logger logger = LogManager.getLogger(ExtentReport.class);
 
     private ExtentReports extentReports;
     private ExtentSparkReporter extentSparkReporter;

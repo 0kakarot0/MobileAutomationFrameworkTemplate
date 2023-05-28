@@ -1,13 +1,15 @@
 package testBase;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.annotations.BeforeClass;
-import pages.login.Login;
+import pages.calculator.CalculatorPage;
 import pages.logout.Logout;
 import utils.commonComponents.buttonActions.ButtonActions;
 import utils.commonComponents.dropDowns.DropDown;
 import utils.commonComponents.editTextFields.EditText;
-import utils.commonComponents.notification.Notifications;
+import utils.commonComponents.notifications.Notifications;
 import utils.commonComponents.validationMessages.Validations;
 
 import java.io.FileNotFoundException;
@@ -15,7 +17,7 @@ import java.net.MalformedURLException;
 
 // This class initializes the page objects before each test class.
 public class PageObjects extends BaseClass {
-    protected Login login;
+    protected CalculatorPage calculatorPage;
     protected Logout logout;
     protected ButtonActions buttonActions;
     protected DropDown dropDown;
@@ -23,7 +25,7 @@ public class PageObjects extends BaseClass {
     protected Notifications notifications;
     protected Validations validations;
 
-    private static final Logger logger = Logger.getLogger(PageObjects.class);
+    private static final Logger logger = LogManager.getLogger(PageObjects.class);
     // ... existing code ...
 
     // This method initializes the page objects before each test class.
@@ -31,7 +33,7 @@ public class PageObjects extends BaseClass {
     public void getLatestDriver() throws MalformedURLException, FileNotFoundException {
         logger.info("Initializing page objects...");
 
-        login = new Login(DriverManager.getDriver(deviceName));
+        calculatorPage = new CalculatorPage(DriverManager.getDriver(deviceName));
         logout = new Logout(DriverManager.getDriver(deviceName));
         buttonActions = new ButtonActions(DriverManager.getDriver(deviceName));
         dropDown = new DropDown(DriverManager.getDriver(deviceName));

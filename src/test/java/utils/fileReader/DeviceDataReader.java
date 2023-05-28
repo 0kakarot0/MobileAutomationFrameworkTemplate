@@ -2,16 +2,19 @@ package utils.fileReader;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.List;import org.apache.log4j.Logger;
+import java.util.List;
+
 
 
 // This class reads device data from a JSON file.
 public class DeviceDataReader {
-    private static final Logger logger = Logger.getLogger(DeviceDataReader.class);
+    private static final Logger logger = LogManager.getLogger(DeviceDataReader.class);
 
     private static final String DEVICES_JSON_FILE_PATH = "D:\\MobileAutomationFramewokTemplate\\src\\test\\resources\\testDataFiles\\devices.json"; // Update with the correct file path
 

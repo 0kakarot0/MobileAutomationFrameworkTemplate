@@ -3,35 +3,43 @@ package utils.fileReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import org.apache.log4j.Logger;
+
+import io.appium.java_client.android.AndroidDriver;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 // This class reads properties from configuration and email configuration files.
 public class PropertiesFileReader {
-    private static final Logger logger = Logger.getLogger(PropertiesFileReader.class);
+    private static final Logger logger = LogManager.getLogger(PropertiesFileReader.class);
 
     private Properties configurationProperties;
     private Properties emailProperties;
-    private String filePath;
+    private String configFilePath = "src/test/resources/testDataFiles/configuration.properties";
+    private String emailFilePath = "src/test/resources/testDataFiles/emailConfiguration.properties";
 
 
+    public PropertiesFileReader(ThreadLocal<AndroidDriver> driver) {
+        configurationProperties = readProperties(configFilePath);
+        emailProperties = readProperties(emailFilePath);
+    }
 
     // This method reads properties from the configuration file.
     public void readConfigurationProperties() {
-        filePath = "src/test/resources/testDataFiles/configuration.properties";
-        logger.info("Reading configuration properties from file: " + filePath);
+        configFilePath = "src/test/resources/testDataFiles/configuration.properties";
+        logger.info("Reading configuration properties from file: " + configFilePath);
 
-        configurationProperties = readProperties(filePath);
+//        configurationProperties = readProperties(configFilePath);
         logger.info("Configuration properties read successfully.");
 
     }
 
     // This method reads properties from the email configuration file.
     public void readEmailProperties() {
-        filePath = "src/test/resources/testDataFiles/emailConfiguration.properties";
-        logger.info("Reading email configuration properties from file: " + filePath);
+        emailFilePath = "src/test/resources/testDataFiles/emailConfiguration.properties";
+        logger.info("Reading email configuration properties from file: " + configFilePath);
 
-        emailProperties = readProperties(filePath);
+//        emailProperties = readProperties(emailFilePath);
         logger.info("Email configuration properties read successfully.");
     }
 

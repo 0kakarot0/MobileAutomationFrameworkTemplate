@@ -1,7 +1,9 @@
 package testBase;
 
 import io.appium.java_client.android.AndroidDriver;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import utils.server.AppiumServer;
 
@@ -13,7 +15,7 @@ import java.util.Map;
 
 // This class manages the AndroidDriver.
 public class DriverManager {
-    private static final Logger logger = Logger.getLogger(DriverManager.class);
+    private static final Logger logger = LogManager.getLogger(DriverManager.class);
 
     private static AndroidDriver driver;
 

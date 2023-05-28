@@ -1,41 +1,59 @@
 package utils.email;
 
 import io.appium.java_client.android.AndroidDriver;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import utils.fileReader.PropertiesFileReader;
 
-import java.io.File;
-import java.io.FileReader;
-import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.*;
-import javax.mail.internet.*;
-import org.apache.log4j.Logger;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.io.File;
+import java.util.Properties;
 
 
 // This class is responsible for sending emails.
 public class EmailSender {
-    private static final Logger logger = Logger.getLogger(EmailSender.class);
+    private static final Logger logger = LogManager.getLogger(EmailSender.class);
 
-    private final String recipient = "abc@gmail.com ";
+    private final String recipient = "abc@gmail.com"; // You need to change this to the email address on which you want to send email
 
     private PropertiesFileReader fileReader;
-    public EmailSender(AndroidDriver driver) {
-        fileReader = new PropertiesFileReader();
+
+    public EmailSender(ThreadLocal<AndroidDriver> driver) {
+        fileReader = new PropertiesFileReader(driver);
     }
 
     public void sendEmail(String subject, String body, File attachment) {
         logger.info("Preparing to send email with subject: " + subject);
         Properties properties = new Properties();
-        properties.put("mail.smtp.host", fileReader.getHost());
-        properties.put("mail.smtp.port", fileReader.getPort());
+        String host = fileReader.getHost();
+        String port = fileReader.getPort();
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.port", port);
         properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.ssl.enable", "true");
 
-        Session session = Session.getInstance(properties, new Authenticator() {
+
+        String email = fileReader.getEmail();
+        String pass = fileReader.getEmailPassword();
+       /* Session session = Session.getInstance(properties, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(fileReader.getEmail(), fileReader.getEmailPassword());
+                return new PasswordAuthentication(email, pass);
             }
+        });*/
+
+        // Get the Session object.// and pass username and password
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {//
+                return new PasswordAuthentication(email, pass);
+            }
+
         });
 
         try {

@@ -1,22 +1,20 @@
 package testBase;
 
 import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Test;
 import utils.email.EmailSender;
 import utils.reporter.ExtentReport;
-import utils.server.AppiumServer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.Duration;
 import java.util.Map;
-import org.apache.log4j.Logger;
 
 // This class sets up and tears down the test environment before and after each suite.
 public class BaseClass {
@@ -24,7 +22,7 @@ public class BaseClass {
     public String deviceName;
     public ExtentReport extentReport;
     private EmailSender emailSender;
-    private static final Logger logger = Logger.getLogger(BaseClass.class);
+    private static final Logger logger = LogManager.getLogger(BaseClass.class);
 
 
     // This method sets up the test environment before each suite.
@@ -43,6 +41,7 @@ public class BaseClass {
         context.setAttribute("driver", driver);
 
         extentReport = new ExtentReport(driver);
+        emailSender = new EmailSender(driver);
         extentReport.createReport();
 
         // Set the implicit wait timeout to 10 seconds
@@ -56,15 +55,22 @@ public class BaseClass {
     public void tearDown() throws MalformedURLException, FileNotFoundException {
         logger.info("Tearing down test suite...");
 
+        // Finalize and generate the extent report by flushing any pending logs and resources.
         extentReport.flushReport();
+
+        /* *********************
+         * Uncomment the below code when you need to send the extent report via email
+         * */
+
+        File reportPath = new File("src/test/resources/reports/spark.html");
+        emailSender.sendEmail(
+                "Automation Test Report",
+                "Please find the attach spark.html file in attachments"
+                , reportPath);
+
 
         // Close the application and terminate the driver session
         DriverManager.getDriver(deviceName).quit();
-
-        File reportPath = new File("src/test/resources/reports/spark.html");
-        emailSender = new EmailSender(DriverManager.getDriver(deviceName));
-        emailSender.sendEmail("","",reportPath);
-
         logger.info("Test suite teardown complete.");
     }
 }

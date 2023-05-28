@@ -1,6 +1,8 @@
 package testBase;
 
 import io.appium.java_client.remote.MobileCapabilityType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import utils.fileReader.DeviceData;
 import utils.fileReader.DeviceDataReader;
@@ -8,11 +10,11 @@ import utils.fileReader.DeviceDataReader;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+
 
 // This class sets up the DesiredCapabilities for the AndroidDriver based on the device name.
 public class DesiredCapabilitiesManager {
-    private static final Logger logger = Logger.getLogger(DesiredCapabilitiesManager.class);
+    private static final Logger logger = LogManager.getLogger(DesiredCapabilitiesManager.class);
 
 
     // This method returns the DesiredCapabilities for the specified device name.
@@ -43,8 +45,13 @@ public class DesiredCapabilitiesManager {
         desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, device.getDeviceName());
         desiredCapabilities.setCapability(MobileCapabilityType.UDID, device.getUdid());
 
-        // Set other desired capabilities as needed
-        // Set the appPackage, appActivity
+        //Use this if you want to install app, if app is not installed
+        /*
+        desiredCapabilities.setCapability(MobileCapabilityType.APP,device.getApp());
+         */
+
+
+        // Set the appPackage, appActivity, If app is already installed
         desiredCapabilities.setCapability("appPackage", "com.veronicaapps.veronica.simplecalculator");
         desiredCapabilities.setCapability("appActivity", "com.veronicaapps.veronica.simplecalculator.MainActivity");
 

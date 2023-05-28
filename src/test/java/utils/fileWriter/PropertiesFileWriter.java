@@ -1,7 +1,10 @@
 package utils.fileWriter;
 
 
-import org.apache.log4j.Logger;
+
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,7 +13,7 @@ import java.util.Properties;
 
 public class PropertiesFileWriter {
 
-    private static final Logger logger = Logger.getLogger(PropertiesFileWriter.class);
+    private static final Logger logger = LogManager.getLogger(PropertiesFileWriter.class);
     private Properties properties;
 
 
