@@ -19,7 +19,7 @@ The MobileAutomationFrameworkTemplate is a modern and comprehensive Maven-based 
 - 🔧 Maven - Built on the Maven project structure, making it easy to manage dependencies and build automation projects.
 
 [//]: # (![Framework Architecture]&#40;https://example.com/framework-architecture.png&#41;)
-## 🚀 Framework Architecture
+## 🏛️ Framework Architecture
 ````
 ├───apps                 <!-- Directory for storing mobile app files -->
 ├───src
