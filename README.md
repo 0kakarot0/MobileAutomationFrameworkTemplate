@@ -2,12 +2,12 @@
 
 The MobileAutomationFrameworkTemplate is a modern and comprehensive Maven-based Java project for mobile test automation. It combines powerful libraries and frameworks to provide a robust and efficient automation solution.
 
-![Framework Logo](https://github.com/0kakarot0/MobileAutomationFramewokTemplate/blob/master/light.png)
-
+<!-- ![Framework Logo](https://github.com/0kakarot0/MobileAutomationFramewokTemplate/blob/master/light.png)
+ -->
 [![GitHub issues](https://img.shields.io/github/issues/0kakarot0/MobileAutomationFramewokTemplate)](https://github.com/0kakarot0/MobileAutomationFramewokTemplate/issues)
 [![GitHub forks](https://img.shields.io/github/forks/0kakarot0/MobileAutomationFramewokTemplate)](https://github.com/0kakarot0/MobileAutomationFramewokTemplate/network)
 [![GitHub stars](https://img.shields.io/github/stars/0kakarot0/MobileAutomationFramewokTemplate)](https://github.com/0kakarot0/MobileAutomationFramewokTemplate/stargazers)
-[![GitHub license](https://img.shields.io/github/license/0kakarot0/MobileAutomationFramewokTemplate)](https://github.com/0kakarot0/MobileAutomationFramewokTemplate/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-blue)](#license)
 
 ## 🌟 Features
 
