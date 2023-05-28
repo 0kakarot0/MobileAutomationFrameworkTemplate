@@ -1,4 +1,4 @@
-package utils.commonComponents.notification;
+package utils.commonComponents.notifications;
 
 import io.appium.java_client.android.AndroidDriver;
 import utils.seleniumUtils.SeleniumUtils;

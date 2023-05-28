@@ -1,8 +1,9 @@
 package utils.commonComponents.scrollMethods;
 
 import io.appium.java_client.android.AndroidDriver;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Pause;
