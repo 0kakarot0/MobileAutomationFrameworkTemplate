@@ -21,7 +21,8 @@ import java.util.Properties;
 public class EmailSender {
     private static final Logger logger = LogManager.getLogger(EmailSender.class);
 
-    private final String recipient = "abc@gmail.com"; // You need to change this to the email address on which you want to send email
+    // You need to change this to the email address on which you want to send email
+    private final String recipient = "abc@gmail.com";
 
     private PropertiesFileReader fileReader;
 
