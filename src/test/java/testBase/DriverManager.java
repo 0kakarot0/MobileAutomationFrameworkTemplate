@@ -2,8 +2,10 @@ package testBase;
 
 import io.appium.java_client.android.AndroidDriver;
 
+import io.appium.java_client.remote.options.BaseOptions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import utils.server.AppiumServer;
 
@@ -26,18 +28,17 @@ public class DriverManager {
         // Check if the driver is already initialized
         if (driver == null) {
             // Get the desired capabilities for the device
-            DesiredCapabilities capabilities = DesiredCapabilitiesManager.getDesiredCapabilities(deviceName);
+            Capabilities capabilities = CapabilitiesManager.getDeviceCapabilities(deviceName, driver);
 
             // Start the Appium server
             AppiumServer.startAppiumServer();
-
 
             // Get the details of the started Appium server
             Map<String, String> serverDetails = AppiumServer.getAppiumServerDetails();
             String serverUrl = serverDetails.get("url").trim();
 
-            // Set the device name capability
-            capabilities.setCapability("deviceName", deviceName);
+//            // Set the device name capability
+//            capabilities.setCapability("deviceName", deviceName);
 
             // Example additional capability
             URL fullUrl = new URL(serverUrl);
