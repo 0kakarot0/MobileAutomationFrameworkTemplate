@@ -1,0 +1,44 @@
+body {
+  background-color: #19222d !important;
+  color: #ffffff !important;
+}
+
+.accordion > .card > .card-header > .card-title > a {
+  color: #ffffff !important;
+}
+
+.dark .test-item.active {
+    background-color: #4e6eff !important;
+}
+
+.dark .test-item:hover{
+    background-color: #5775fa !important;
+}
+.test-wrapper .test-list .test-list-tools{
+    background-color: #3cb371 !important;
+}
+.font-size-14{
+ font-weight: bold !important;
+ color : #ffffff;
+}
+.test-wrapper .test-list .test-list-tools .tools>li>a {
+    font-size: 16px;
+    color: #ffffff;
+}
+.nav-center{
+    font-size: 22px;
+    font-weight: bold !important;
+}
+
+.vheader {
+  display: flex;
+  align-items: center;
+}
+
+.nav-left {
+  margin-right: auto;
+}
+
+.nav-right {
+  margin-left: auto;
+}
