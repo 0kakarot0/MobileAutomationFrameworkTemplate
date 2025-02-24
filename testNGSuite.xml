@@ -1,6 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Test Suite">
     <listeners>
+
+        <listener class-name="utils.listener.SuiteListener"/>
         <listener class-name="utils.listener.TestListener"/>
     </listeners>
 
@@ -8,7 +10,7 @@
         <parameter name="deviceName" value="LDPlayerTwo" />
         <parameter name="driver" value="driverInstance" />
         <classes>
-            <class name="tests.ExampleTest"/>
+            <class name="testBase.BaseClass"/>
         </classes>
     </test>
 </suite>
