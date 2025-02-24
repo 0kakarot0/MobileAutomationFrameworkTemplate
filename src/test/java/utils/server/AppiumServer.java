@@ -2,6 +2,8 @@ package utils.server;
 
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.service.local.flags.GeneralServerFlag;
+import utils.JsonUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,93 +16,145 @@ import java.util.Map;
 public class AppiumServer {
 
     private static AppiumDriverLocalService appiumService;
+    private static final int PORT = 4723; // Define the Appium Port
+    private static final String OS = System.getProperty("os.name").toLowerCase();
+    private static final String CONFIG_FILE_PATH = "src/test/resources/testDataFiles/appium_config/server-config.json";
+    private static final String APPIUM_CONFIG_FILE_PATH = "src/test/resources/testDataFiles/appium_config/appium_config.json";
 
     public static void startAppiumServer() {
+        System.out.println("Starting Appium Server...");
 
-        // Check if the port is already in use
-        int portNumber = 4700;  // You can use any port
-        if (checkIfServerIsRunning(portNumber)) {
-            // Find the PID of the process using the port
-            String pid = findProcessIdUsingPort(portNumber);
+        // Handle any existing process on the designated port.
+        handleExistingProcessOnPort(PORT);
+
+        try {
+            AppiumConfigModel config = loadAppiumConfig();
+
+            // Build and configure the Appium service.
+            AppiumServiceBuilder serviceBuilder = configureServiceBuilder(config);
+
+            // Start the Appium service.
+            startService(serviceBuilder);
+            System.out.println("Appium Server Started on Port: " + appiumService.getUrl().getPort());
+
+            // Add a shutdown hook to stop the Appium service when the JVM exits.
+            addShutdownHook();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to start Appium server", e);
+        }
+    }
+
+    public static void stopAppiumServer() {
+        if (appiumService != null && appiumService.isRunning()) {
+            appiumService.stop();
+            System.out.println("Appium Server Stopped.");
+        }
+    }
+
+    // Checks if the designated port is in use and handles any running process.
+    private static void handleExistingProcessOnPort(int port) {
+        if (isPortInUse(port)) {
+            String pid = getProcessIdUsingPort(port);
             if (pid != null) {
-                // Terminate the process using the port
                 killProcess(pid);
+                System.out.println("Killed existing Appium process with PID: " + pid);
             }
         }
-
-        String userHome = System.getProperty("user.home");
-        String appiumPath = userHome + "\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js";
-
-        AppiumServiceBuilder serviceBuilder = new AppiumServiceBuilder();
-        serviceBuilder.usingPort(portNumber);
-        serviceBuilder.usingDriverExecutable(new File("C:\\Program Files\\nodejs\\node.exe"));
-        serviceBuilder.withAppiumJS(new File(appiumPath));
-
-//        File logFile logFile = new File(userHome + "\\IdeaProjects\\MobileAutomationFramework\\appiumlogs.txt");
-//        serviceBuilder.withLogFile(logFile);
-
-        appiumService = AppiumDriverLocalService.buildService(serviceBuilder);
-        appiumService.start();
     }
 
-
-    private static boolean checkIfServerIsRunning(int port) {
-        boolean isServerRunning = false;
-        ServerSocket serverSocket;
-        try {
-            serverSocket = new ServerSocket(port);
-            serverSocket.close();
+    // Checks if a port is in use.
+    private static boolean isPortInUse(int port) {
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            return false; // Port is available
         } catch (IOException e) {
-            //If control comes here, then it means that the port is in use
-            isServerRunning = true;
+            return true; // Port is in use
         }
-        return isServerRunning;
     }
 
-    private static String findProcessIdUsingPort(int port) {
-        String pid = null;
+    // Returns the process ID using the specified port.
+    private static String getProcessIdUsingPort(int port) {
+        String command = OS.contains("win") ? "netstat -ano" : "lsof -i :" + port;
         try {
-            Process p = Runtime.getRuntime().exec("netstat -ano");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.contains(":" + port)) {
-                    String[] parts = line.split("\\s+");
-                    pid = parts[parts.length - 1];
-                    break;
+            Process process = Runtime.getRuntime().exec(command);
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (OS.contains("win") && line.contains(":" + port)) {
+                        String[] parts = line.trim().split("\\s+");
+                        return parts[parts.length - 1]; // PID is the last element in Windows
+                    } else if (!OS.contains("win") && line.contains("LISTEN")) {
+                        String[] parts = line.trim().split("\\s+");
+                        return parts[1]; // PID is the second element in Mac/Linux
+                    }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return pid;
+        return null;
     }
 
+    // Kills the process with the specified process ID.
     private static void killProcess(String pid) {
+        String command = OS.contains("win") ? "taskkill /F /PID " + pid : "kill -9 " + pid;
         try {
-            Runtime.getRuntime().exec("taskkill /F /PID " + pid);
+            Runtime.getRuntime().exec(command);
+            System.out.println("Process " + pid + " terminated.");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void stopAppiumServer() throws IOException {
-
-        if (appiumService != null) {
-            appiumService.stop();
-        }
+    // Loads the Appium configuration and sets the appropriate paths based on the OS.
+    private static AppiumConfigModel loadAppiumConfig() throws IOException {
+        AppiumConfigModel config = JsonUtils.readJson(APPIUM_CONFIG_FILE_PATH, AppiumConfigModel.class);
+        return config;
     }
 
+    // Configures the AppiumServiceBuilder with the loaded configuration.
+    private static AppiumServiceBuilder configureServiceBuilder(AppiumConfigModel config) {
+        AppiumServiceBuilder builder = new AppiumServiceBuilder();
+        if (OS.equals("win")) {
+            builder.withAppiumJS(new File(config.getJsFilePath().getWindows()));
+            builder.usingDriverExecutable(new File(config.getNodePath().getWindows()));
+        } else {
+            builder.withAppiumJS(new File(config.getJsFilePath().getMacos()));
+            builder.usingDriverExecutable(new File(config.getNodePath().getMac()));
+        }
+        // builder.usingPort(PORT);
+        builder.usingAnyFreePort();
+        // Pass the config file to Appium
+        builder.withArgument(() -> "--config", CONFIG_FILE_PATH);
+        // Activate the device-farm plugin
+        builder.withArgument(() -> "--use-plugins", "device-farm");
+        // Set the base path for Appium (ensuring both server and client match)
+        builder.withArgument(GeneralServerFlag.BASEPATH, "/wd/hub");
+        // Optional: if you want to specify the base path explicitly
+        builder.withArgument(() -> "-pa", "/wd/hub");
+
+        builder.withIPAddress("127.0.0.1");
+//        builder.withArgument(() -> "--config", CONFIG_FILE_PATH);
+        return builder;
+    }
+
+    // Starts the Appium service with the given builder.
+    private static void startService(AppiumServiceBuilder builder) {
+        appiumService = AppiumDriverLocalService.buildService(builder);
+        appiumService.start();
+    }
+
+    // Adds a shutdown hook to ensure the Appium service is stopped when the JVM exits.
+    private static void addShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(AppiumServer::stopAppiumServer));
+    }
+
+    // Returns details of the running Appium server.
     public static Map<String, String> getAppiumServerDetails() {
         Map<String, String> serverDetails = new HashMap<>();
         if (appiumService != null) {
-            int port = appiumService.getUrl().getPort();
-            String url = appiumService.getUrl().toString();
-
-            serverDetails.put("port", String.valueOf(port));
-            serverDetails.put("url", url);
+            serverDetails.put("URL", appiumService.getUrl().toString());
+            serverDetails.put("PORT", String.valueOf(appiumService.getUrl().getPort()));
         }
         return serverDetails;
     }
-
 }

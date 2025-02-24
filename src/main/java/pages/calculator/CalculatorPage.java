@@ -9,13 +9,13 @@ import io.appium.java_client.android.AndroidDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import utils.seleniumUtils.SeleniumUtils;
+import utils.driverUtils.SeleniumUtils;
 
 
 // This class represents the example page.
 public class CalculatorPage extends SeleniumUtils {
     private static final Logger logger = LogManager.getLogger(CalculatorPage.class);
-
+    private  String stepResult;
     /**
      * Constructor for Login.
      * Initializes the driver.
@@ -35,31 +35,11 @@ public class CalculatorPage extends SeleniumUtils {
         By numberNine = By.id("com.veronicaapps.veronica.simplecalculator:id/button_nine");
         try {
             logger.info("Attempting to click on number nine button...");
-            click(numberNine);
+            clickOnElement(numberNine);
             stepResult = "Pass, User able to click on the nine button";
             logger.info("Click successful.");
         } catch (Exception e) {
             stepResult = "Fail, User unable to click on the nine button";
-            logger.error("Click failed.", e);
-            e.printStackTrace();
-        }
-        return stepResult;
-    }
-
-    /**
-     * Clicks on the number nine button and returns the result.
-     *
-     * @return The result of the operation.
-     */
-    public String clickWithIncorrectID(){
-        By numberNine = By.id("randomIncorrectID");
-        try {
-            logger.info("Attempting to click on number nine button...");
-            click(numberNine);
-            stepResult = "Pass, User able to click on the eight button";
-            logger.info("Click successful.");
-        } catch (Exception e) {
-            stepResult = "Fail, User unable to click on the eight button";
             logger.error("Click failed.", e);
             e.printStackTrace();
         }

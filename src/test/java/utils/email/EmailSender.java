@@ -2,17 +2,16 @@ package utils.email;
 
 import io.appium.java_client.android.AndroidDriver;
 
+import jakarta.activation.DataHandler;
+import jakarta.activation.FileDataSource;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import utils.fileReader.PropertiesFileReader;
-
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import java.io.File;
 import java.util.Properties;
 
@@ -43,18 +42,12 @@ public class EmailSender {
 
         String email = fileReader.getEmail();
         String pass = fileReader.getEmailPassword();
-       /* Session session = Session.getInstance(properties, new Authenticator() {
+
+        // Get the Session object.// and pass username and password
+        Session session = Session.getInstance(properties, new jakarta.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(email, pass);
             }
-        });*/
-
-        // Get the Session object.// and pass username and password
-        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {//
-                return new PasswordAuthentication(email, pass);
-            }
-
         });
 
         try {

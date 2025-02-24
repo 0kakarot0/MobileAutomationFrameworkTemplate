@@ -1,0 +1,18 @@
+{
+  "url" : "http://127.0.0.1:9937/wd/hub/",
+  "port" : 34564,
+  "jsFilePath" : {
+    "windows" : "\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js",
+    "macos" : "/usr/local/lib/node_modules/appium/build/lib/main.js",
+    "linux" : "/usr/local/lib/node_modules/appium/build/lib/main.js"
+  },
+  "nodePath" : {
+    "windows" : "C:\\Program Files\\nodejs\\node.exe",
+    "mac" : "/usr/local/bin/node",
+    "linux" : "/usr/local/bin/node"
+  },
+  "general" : {
+    "logLevel" : "info",
+    "availableLogLevels" : [ "trace", "debug", "info", "warn", "error", "silent" ]
+  }
+}

@@ -1,9 +1,7 @@
-package utils.commonComponents.editTextFields;
+package utils.uiCommonComponents.editTextFields;
 
-import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.By;
-import utils.seleniumUtils.SeleniumUtils;
+import utils.driverUtils.SeleniumUtils;
 
 public class EditText extends SeleniumUtils {
 

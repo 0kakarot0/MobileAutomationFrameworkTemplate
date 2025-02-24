@@ -6,11 +6,11 @@ import org.apache.logging.log4j.Logger;
 import org.testng.annotations.BeforeClass;
 import pages.calculator.CalculatorPage;
 import pages.logout.Logout;
-import utils.commonComponents.buttonActions.ButtonActions;
-import utils.commonComponents.dropDowns.DropDown;
-import utils.commonComponents.editTextFields.EditText;
-import utils.commonComponents.notifications.Notifications;
-import utils.commonComponents.validationMessages.Validations;
+import utils.uiCommonComponents.buttonActions.ButtonActions;
+import utils.uiCommonComponents.dropDowns.DropDown;
+import utils.uiCommonComponents.editTextFields.EditText;
+import utils.uiCommonComponents.notifications.Notifications;
+import utils.uiCommonComponents.validationMessages.Validations;
 
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
