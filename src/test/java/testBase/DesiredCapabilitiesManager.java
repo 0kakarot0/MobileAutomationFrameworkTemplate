@@ -1,6 +1,7 @@
 package testBase;
 
-import io.appium.java_client.remote.MobileCapabilityType;
+
+import io.appium.java_client.remote.options.BaseOptions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -11,17 +12,16 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 
-
 // This class sets up the DesiredCapabilities for the AndroidDriver based on the device name.
 public class DesiredCapabilitiesManager {
     private static final Logger logger = LogManager.getLogger(DesiredCapabilitiesManager.class);
 
 
     // This method returns the DesiredCapabilities for the specified device name.
-    public static DesiredCapabilities getDesiredCapabilities(String deviceName) throws FileNotFoundException {
+    public static BaseOptions getDesiredCapabilities(String deviceName) throws FileNotFoundException {
         logger.info("Setting up DesiredCapabilities for device: " + deviceName);
 
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        BaseOptions desiredCapabilities = new BaseOptions();
 
         // Fetch the device data based on the deviceName parameter from DeviceDataReader
         List<DeviceData> deviceDataList = DeviceDataReader.getDeviceData();
@@ -39,11 +39,11 @@ public class DesiredCapabilitiesManager {
         }
 
         // Set the desired capabilities based on the device data
-        desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, device.getAutomationName());
-        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, device.getPlatformName());
-        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, device.getPlatformVersion());
-        desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, device.getDeviceName());
-        desiredCapabilities.setCapability(MobileCapabilityType.UDID, device.getUdid());
+        desiredCapabilities.setAutomationName(device.getAutomationName());
+        desiredCapabilities.setPlatformName(device.getPlatformName());
+        desiredCapabilities.setPlatformVersion(device.getPlatformVersion());
+        desiredCapabilities.setCapability("deviceName", device.getDeviceName());
+        desiredCapabilities.setCapability("udid", device.getUdid());
 
         //Use this if you want to install app, if app is not installed
         /*

@@ -5,8 +5,7 @@ import io.appium.java_client.android.AndroidDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.ITestContext;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 import utils.email.EmailSender;
 import utils.reporter.ExtentReport;
 
@@ -26,7 +25,7 @@ public class BaseClass {
 
 
     // This method sets up the test environment before each suite.
-    @BeforeSuite
+    @BeforeTest
     public void setUp(ITestContext context) throws MalformedURLException, FileNotFoundException {
         logger.info("Setting up test suite...");
 
@@ -40,23 +39,34 @@ public class BaseClass {
         driver.set(DriverManager.getDriver(deviceName));
         context.setAttribute("driver", driver);
 
-        extentReport = new ExtentReport(driver);
+        extentReport = new ExtentReport();
         emailSender = new EmailSender(driver);
         extentReport.createReport();
-
-        // Set the implicit wait timeout to 10 seconds
-        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+//
+//        // Set the implicit wait timeout to 10 seconds
+//        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         logger.info("Test suite setup complete.");
     }
 
+    @Test
+    public void testIT() throws InterruptedException {
+        Thread.sleep(2000);
+        extentReport.createParentTest("Parent","This is a parent test");
+        extentReport.createChildTest("Parent","Child","This is a child test");
+        extentReport.createGrandChildTest("Parent","Child","Grandchild","This is a grandchild test");
+        extentReport.logStepResult("Test started");
+        extentReport.logStepResult("Pass, create report");
+    }
+
     // This method tears down the test environment after each suite.
-    @AfterSuite
+    @AfterTest
     public void tearDown() throws MalformedURLException, FileNotFoundException {
         logger.info("Tearing down test suite...");
 
         // Finalize and generate the extent report by flushing any pending logs and resources.
         extentReport.flushReport();
+        extentReport.mergeReports();
 
         /* *********************
          * Uncomment the below code when you need to send the extent report via email

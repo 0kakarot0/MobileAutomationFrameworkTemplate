@@ -1,0 +1,13 @@
+{
+  "server": {
+    "port": 31337,
+    "plugin": {
+      "device-farm": {
+        "platform": "both",
+        "skipChromeDownload": true,
+        "iosDeviceType": "real",
+        "liveStreaming": true
+      }
+    }
+  }
+}
